@@ -28,9 +28,17 @@ public:
             : SourceOperator(factory, id, name, plan_node_id, false, driver_sequence),
               _aggregator(std::move(aggregator)) {
         _aggregator->ref();
+        pull_chunk_convert_chunk = new RuntimeProfile::Counter(TUnit::UNIT);
     }
 
-    ~AggregateBlockingSourceOperator() override = default;
+    ~AggregateBlockingSourceOperator() override
+    {
+        LOG(INFO) << "gjt debug pull chunk convert chunk" << pull_chunk_convert_chunk->value();
+        LOG(INFO) << "gjt debug pull chunk iter timer" << _aggregator->iter_timer()->value();
+        LOG(INFO) << "gjt debug pull chunk group by key append" << _aggregator->group_by_append_timer()->value();
+        LOG(INFO) << "gjt debug pull chunk agg val append" << _aggregator->agg_append_timer()->value();
+        delete pull_chunk_convert_chunk;
+    }
 
     bool has_output() const override;
     bool is_finished() const override;
@@ -48,6 +56,8 @@ protected:
     // - reffed at constructor() of both sink and source operator,
     // - unreffed at close() of both sink and source operator.
     AggregatorPtr _aggregator = nullptr;
+
+    RuntimeProfile::Counter* pull_chunk_convert_chunk;
 };
 
 class AggregateBlockingSourceOperatorFactory final : public SourceOperatorFactory {

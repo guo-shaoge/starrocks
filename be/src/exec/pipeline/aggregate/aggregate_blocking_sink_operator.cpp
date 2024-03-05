@@ -82,7 +82,10 @@ StatusOr<ChunkPtr> AggregateBlockingSinkOperator::pull_chunk(RuntimeState* state
 }
 
 Status AggregateBlockingSinkOperator::push_chunk(RuntimeState* state, const ChunkPtr& chunk) {
-    RETURN_IF_ERROR(_aggregator->evaluate_groupby_exprs(chunk.get()));
+    {
+        SCOPED_TIMER(push_chunk_eval_groupby_exprs_timer);
+        RETURN_IF_ERROR(_aggregator->evaluate_groupby_exprs(chunk.get()));
+    }
 
     const auto chunk_size = chunk->num_rows();
     DCHECK_LE(chunk_size, state->chunk_size());
@@ -90,10 +93,12 @@ Status AggregateBlockingSinkOperator::push_chunk(RuntimeState* state, const Chun
     SCOPED_TIMER(_aggregator->agg_compute_timer());
     // try to build hash table if has group by keys
     if (!_aggregator->is_none_group_by_exprs()) {
+        SCOPED_TIMER(push_chunk_build_hash_map_timer);
         TRY_CATCH_BAD_ALLOC(_aggregator->build_hash_map(chunk_size, _agg_group_by_with_limit));
         TRY_CATCH_BAD_ALLOC(_aggregator->try_convert_to_two_level_map());
     }
 
+    SCOPED_TIMER(push_chunk_compute_agg_state_timer);
     // batch compute aggregate states
     if (_aggregator->is_none_group_by_exprs()) {
         RETURN_IF_ERROR(_aggregator->compute_single_agg_state(chunk.get(), chunk_size));

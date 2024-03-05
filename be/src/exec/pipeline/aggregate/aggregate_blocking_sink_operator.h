@@ -29,9 +29,20 @@ public:
             : Operator(factory, id, name, plan_node_id, false, driver_sequence), _aggregator(std::move(aggregator)) {
         _aggregator->set_aggr_phase(AggrPhase2);
         _aggregator->ref();
+        push_chunk_eval_groupby_exprs_timer = new RuntimeProfile::Counter(TUnit::UNIT);
+        push_chunk_build_hash_map_timer = new RuntimeProfile::Counter(TUnit::UNIT);
+        push_chunk_compute_agg_state_timer = new RuntimeProfile::Counter(TUnit::UNIT);
     }
 
-    ~AggregateBlockingSinkOperator() override = default;
+    ~AggregateBlockingSinkOperator() override
+    {
+        LOG(INFO) << "gjt debug push chunk eval groupby exprs: {}ns" << push_chunk_eval_groupby_exprs_timer->value();
+        LOG(INFO) << "gjt debug push chunk build hash map: {}ns" << push_chunk_build_hash_map_timer->value();
+        LOG(INFO) << "gjt debug push chunk compute_agg_state_timer: {}ns" << push_chunk_compute_agg_state_timer->value();
+        delete push_chunk_compute_agg_state_timer;
+        delete push_chunk_eval_groupby_exprs_timer;
+        delete push_chunk_compute_agg_state_timer;
+    }
 
     bool has_output() const override { return false; }
     bool need_input() const override { return !is_finished(); }
@@ -58,6 +69,9 @@ private:
     std::atomic_bool _is_finished = false;
     // whether enable aggregate group by limit optimize
     bool _agg_group_by_with_limit = false;
+    RuntimeProfile::Counter* push_chunk_eval_groupby_exprs_timer;
+    RuntimeProfile::Counter* push_chunk_build_hash_map_timer;
+    RuntimeProfile::Counter* push_chunk_compute_agg_state_timer;
 };
 
 class AggregateBlockingSinkOperatorFactory final : public OperatorFactory {

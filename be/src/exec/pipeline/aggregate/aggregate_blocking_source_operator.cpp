@@ -43,10 +43,13 @@ StatusOr<ChunkPtr> AggregateBlockingSourceOperator::pull_chunk(RuntimeState* sta
     const auto chunk_size = state->chunk_size();
     ChunkPtr chunk = std::make_shared<Chunk>();
 
-    if (_aggregator->is_none_group_by_exprs()) {
-        RETURN_IF_ERROR(_aggregator->convert_to_chunk_no_groupby(&chunk));
-    } else {
-        RETURN_IF_ERROR(_aggregator->convert_hash_map_to_chunk(chunk_size, &chunk));
+    {
+        SCOPED_TIMER(pull_chunk_convert_chunk);
+        if (_aggregator->is_none_group_by_exprs()) {
+            RETURN_IF_ERROR(_aggregator->convert_to_chunk_no_groupby(&chunk));
+        } else {
+            RETURN_IF_ERROR(_aggregator->convert_hash_map_to_chunk(chunk_size, &chunk));
+        }
     }
 
     const int64_t old_size = chunk->num_rows();
