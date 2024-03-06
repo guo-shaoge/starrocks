@@ -29,18 +29,18 @@ public:
             : Operator(factory, id, name, plan_node_id, false, driver_sequence), _aggregator(std::move(aggregator)) {
         _aggregator->set_aggr_phase(AggrPhase2);
         _aggregator->ref();
-        push_chunk_eval_groupby_exprs_timer = new RuntimeProfile::Counter(TUnit::UNIT);
-        push_chunk_build_hash_map_timer = new RuntimeProfile::Counter(TUnit::UNIT);
-        push_chunk_compute_agg_state_timer = new RuntimeProfile::Counter(TUnit::UNIT);
+        push_chunk_eval_groupby_exprs_timer = new RuntimeProfile::Counter(TUnit::TIME_NS);
+        push_chunk_build_hash_map_timer = new RuntimeProfile::Counter(TUnit::TIME_NS);
+        push_chunk_compute_agg_state_timer = new RuntimeProfile::Counter(TUnit::TIME_NS);
     }
 
     ~AggregateBlockingSinkOperator() override
     {
-        LOG(INFO) << "gjt debug push chunk eval groupby exprs: {}ns" << push_chunk_eval_groupby_exprs_timer->value();
-        LOG(INFO) << "gjt debug push chunk build hash map: {}ns" << push_chunk_build_hash_map_timer->value();
-        LOG(INFO) << "gjt debug push chunk compute_agg_state_timer: {}ns" << push_chunk_compute_agg_state_timer->value();
-        delete push_chunk_compute_agg_state_timer;
+        LOG(INFO) << "gjt debug push chunk eval groupby exprs: " << push_chunk_eval_groupby_exprs_timer->value();
+        LOG(INFO) << "gjt debug push chunk build hash map: " << push_chunk_build_hash_map_timer->value();
+        LOG(INFO) << "gjt debug push chunk compute_agg_state_timer: " << push_chunk_compute_agg_state_timer->value();
         delete push_chunk_eval_groupby_exprs_timer;
+        delete push_chunk_build_hash_map_timer;
         delete push_chunk_compute_agg_state_timer;
     }
 
