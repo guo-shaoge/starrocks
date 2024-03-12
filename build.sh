@@ -355,7 +355,7 @@ if [ ${BUILD_BE} -eq 1 ] ; then
                   -DSTARLET_INSTALL_DIR=${STARLET_INSTALL_DIR}          \
                   -DCMAKE_CXX_COMPILER_LAUNCHER=${CCACHE}                  \
                   -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE}                \
-                  -DMAKE_TEST=OFF -DWITH_GCOV=${WITH_GCOV}              \
+                  -DMAKE_TEST=On -DWITH_GCOV=${WITH_GCOV}              \
                   -DUSE_AVX2=$USE_AVX2 -DUSE_AVX512=$USE_AVX512 -DUSE_SSE4_2=$USE_SSE4_2 \
                   -DJEMALLOC_DEBUG=$JEMALLOC_DEBUG  \
                   -DENABLE_QUERY_DEBUG_TRACE=$ENABLE_QUERY_DEBUG_TRACE  \

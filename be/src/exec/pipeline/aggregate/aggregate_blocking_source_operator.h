@@ -33,10 +33,10 @@ public:
 
     ~AggregateBlockingSourceOperator() override
     {
-        LOG(INFO) << "gjt debug pull chunk convert chunk" << pull_chunk_convert_chunk->value();
-        LOG(INFO) << "gjt debug pull chunk iter timer" << _aggregator->iter_timer()->value();
-        LOG(INFO) << "gjt debug pull chunk group by key append" << _aggregator->group_by_append_timer()->value();
-        LOG(INFO) << "gjt debug pull chunk agg val append" << _aggregator->agg_append_timer()->value();
+        LOG(INFO) << "gjt debug pull chunk convert chunk: " << pull_chunk_convert_chunk->value();
+        LOG(INFO) << "gjt debug pull chunk iter timer: " << _aggregator->iter_timer()->value();
+        LOG(INFO) << "gjt debug pull chunk group by key appen: d" << _aggregator->group_by_append_timer()->value();
+        LOG(INFO) << "gjt debug pull chunk agg val append: " << _aggregator->agg_append_timer()->value();
         delete pull_chunk_convert_chunk;
     }
 

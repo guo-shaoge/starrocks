@@ -1,3 +1,4 @@
+message ("gjt debug test")
 set(EXEC_FILES
         ./agent/agent_task_test.cpp
         ./agent/master_info_test.cpp
@@ -51,6 +52,7 @@ set(EXEC_FILES
         ./exec/stream/stream_aggregator_test.cpp
         ./exec/stream/stream_operators_test.cpp
         ./exec/stream/stream_pipeline_test.cpp
+        ./exec/bench_agg.cpp
         ./exec/tablet_info_test.cpp
         ./exec/agg_hash_map_test.cpp
         ./exec/analytor_test.cpp

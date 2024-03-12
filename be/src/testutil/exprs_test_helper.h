@@ -37,6 +37,8 @@ public:
             node.__set_type(TTypeNodeType::SCALAR);
             TScalarType scalar_type;
             scalar_type.__set_type(t_type);
+            scalar_type.__set_precision(19);
+            scalar_type.__set_scale(6);
             node.__set_scalar_type(scalar_type);
             type.types.push_back(node);
         }
