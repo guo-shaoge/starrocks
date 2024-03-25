@@ -52,7 +52,7 @@ public:
         DCHECK_IF_ERROR(aggregator->prepare(runtime_state, &obj_pool, runtime_profile));
         DCHECK_IF_ERROR(aggregator->open(runtime_state));
 
-        input_chunks = genAllChunks(4000000);
+        input_chunks = genAllChunks(40000000);
         LOG(INFO) << "gjt debug agg input chunk: " << input_chunks.size();
         // for (size_t i = 0; i < input_chunks.size(); ++i) {
         //     for (size_t j = 0; j < input_chunks[i]->num_rows(); ++j) {

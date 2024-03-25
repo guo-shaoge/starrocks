@@ -357,7 +357,7 @@ struct AggHashMapWithOneNumberKeyWithNullable
     static constexpr bool has_single_null_key = is_nullable;
     AggDataPtr null_key_data = nullptr;
     ResultVector results;
-};
+}+;
 template <LogicalType logical_type, typename HashMap>
 using AggHashMapWithOneNumberKey = AggHashMapWithOneNumberKeyWithNullable<logical_type, HashMap, false>;
 template <LogicalType logical_type, typename HashMap>
