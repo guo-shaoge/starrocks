@@ -438,7 +438,7 @@ fi
 
 
 # Clean and prepare output dir
-STARROCKS_OUTPUT=${STARROCKS_HOME}/output/
+STARROCKS_OUTPUT=${STARROCKS_HOME}/output_debug_prefetch/
 mkdir -p ${STARROCKS_OUTPUT}
 
 # Copy Frontend and Backend

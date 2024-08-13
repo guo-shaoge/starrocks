@@ -1313,6 +1313,8 @@ void Aggregator::_init_agg_hash_variant(HashVariantType& hash_variant) {
     }
     VLOG_ROW << "hash type is "
              << static_cast<typename std::underlying_type<typename HashVariantType::Type>::type>(type);
+    LOG(INFO) << "hash type is "
+             << static_cast<typename std::underlying_type<typename HashVariantType::Type>::type>(type);
     hash_variant.init(_state, type, _agg_stat);
 
     hash_variant.visit([&](auto& variant) {
