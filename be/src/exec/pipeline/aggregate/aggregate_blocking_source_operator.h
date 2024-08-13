@@ -30,7 +30,11 @@ public:
         _aggregator->ref();
     }
 
-    ~AggregateBlockingSourceOperator() override = default;
+    ~AggregateBlockingSourceOperator() override 
+    {
+        LOG(INFO) << "gjt debug AggregateBlockingSourceOperator agg hashmap convert to blocks time: "
+            << _aggregator->agg_get_data_timer()->value();
+    }
 
     bool has_output() const override;
     bool is_finished() const override;
