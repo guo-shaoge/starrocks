@@ -181,13 +181,15 @@ struct AggHashMapWithOneNumberKeyWithNullable
             (*not_founds).assign(chunk_size, 0);
         }
 
-        if (bucket_count < prefetch_threhold) {
-            this->template compute_agg_noprefetch<Func, allocate_and_compute_state, compute_not_founds>(
-                    column, agg_states, std::forward<Func>(allocate_func), not_founds);
-        } else {
-            this->template compute_agg_prefetch<Func, allocate_and_compute_state, compute_not_founds>(
-                    column, agg_states, std::forward<Func>(allocate_func), not_founds);
-        }
+        // if (bucket_count < prefetch_threhold) {
+        //     this->template compute_agg_noprefetch<Func, allocate_and_compute_state, compute_not_founds>(
+        //             column, agg_states, std::forward<Func>(allocate_func), not_founds);
+        // } else {
+        //     this->template compute_agg_prefetch<Func, allocate_and_compute_state, compute_not_founds>(
+        //             column, agg_states, std::forward<Func>(allocate_func), not_founds);
+        // }
+        this->template compute_agg_noprefetch<Func, allocate_and_compute_state, compute_not_founds>(
+                column, agg_states, std::forward<Func>(allocate_func), not_founds);
     }
 
     // Nullable
@@ -215,13 +217,15 @@ struct AggHashMapWithOneNumberKeyWithNullable
 
             // Shortcut: if nullable column has no nulls.
             if (!nullable_column->has_null()) {
-                if (this->hash_map.bucket_count() < prefetch_threhold) {
-                    this->template compute_agg_noprefetch<Func, allocate_and_compute_state, compute_not_founds>(
-                            data_column, agg_states, std::forward<Func>(allocate_func), not_founds);
-                } else {
-                    this->template compute_agg_prefetch<Func, allocate_and_compute_state, compute_not_founds>(
-                            data_column, agg_states, std::forward<Func>(allocate_func), not_founds);
-                }
+                // if (this->hash_map.bucket_count() < prefetch_threhold) {
+                //     this->template compute_agg_noprefetch<Func, allocate_and_compute_state, compute_not_founds>(
+                //             data_column, agg_states, std::forward<Func>(allocate_func), not_founds);
+                // } else {
+                //     this->template compute_agg_prefetch<Func, allocate_and_compute_state, compute_not_founds>(
+                //             data_column, agg_states, std::forward<Func>(allocate_func), not_founds);
+                // }
+                this->template compute_agg_noprefetch<Func, allocate_and_compute_state, compute_not_founds>(
+                        data_column, agg_states, std::forward<Func>(allocate_func), not_founds);
             } else {
                 this->template compute_agg_through_null_data<Func, allocate_and_compute_state, compute_not_founds>(
                         chunk_size, nullable_column, agg_states, std::forward<Func>(allocate_func), not_founds);
