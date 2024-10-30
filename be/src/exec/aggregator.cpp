@@ -1149,8 +1149,13 @@ bool is_group_columns_fixed_size(std::vector<ExprContext*>& group_by_expr_ctxs, 
     size_t size = 0;
     *has_null = false;
 
+    LOG(INFO) << "gjt debug is_group_columns_fixed_size: " << group_by_expr_ctxs.size();
     for (size_t i = 0; i < group_by_expr_ctxs.size(); i++) {
         ExprContext* ctx = group_by_expr_ctxs[i];
+
+        auto expr_str = ctx->root()->debug_string();
+        LOG(INFO) << "gjt debug expr: " << expr_str;
+
         if (group_by_types[i].is_nullable) {
             *has_null = true;
             size += 1; // 1 bytes for  null flag.
@@ -1160,6 +1165,8 @@ bool is_group_columns_fixed_size(std::vector<ExprContext*>& group_by_expr_ctxs, 
             return false;
         }
         size_t byte_size = get_size_of_fixed_length_type(ltype);
+        LOG(INFO) << "gjt debug expr: " << byte_size;
+
         if (byte_size == 0) return false;
         size += byte_size;
     }
