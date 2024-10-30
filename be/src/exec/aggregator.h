@@ -306,6 +306,8 @@ public:
     std::any& it_hash() { return _it_hash; }
     const std::vector<uint8_t>& streaming_selection() { return _streaming_selection; }
     RuntimeProfile::Counter* agg_compute_timer() { return _agg_stat->agg_compute_timer; }
+    RuntimeProfile::Counter* agg_build_hashmap_timer() { return _agg_stat->agg_build_hashmap_timer; }
+    RuntimeProfile::Counter* agg_get_data_timer() { return _agg_stat->agg_get_data_timer; }
     RuntimeProfile::Counter* agg_expr_timer() { return _agg_stat->agg_function_compute_timer; }
     RuntimeProfile::Counter* streaming_timer() { return _agg_stat->streaming_timer; }
     RuntimeProfile::Counter* input_row_count() { return _agg_stat->input_row_count; }

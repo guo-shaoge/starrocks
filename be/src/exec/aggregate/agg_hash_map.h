@@ -193,6 +193,8 @@ struct AggHashMapWithOneNumberKeyWithNullable
             this->template compute_agg_prefetch<Func, allocate_and_compute_state, compute_not_founds>(
                     column, agg_states, std::forward<Func>(allocate_func), not_founds);
         }
+        // this->template compute_agg_noprefetch<Func, allocate_and_compute_state, compute_not_founds>(
+        //         column, agg_states, std::forward<Func>(allocate_func), not_founds);
     }
 
     // Nullable
@@ -227,6 +229,8 @@ struct AggHashMapWithOneNumberKeyWithNullable
                     this->template compute_agg_prefetch<Func, allocate_and_compute_state, compute_not_founds>(
                             data_column, agg_states, std::forward<Func>(allocate_func), not_founds);
                 }
+                // this->template compute_agg_noprefetch<Func, allocate_and_compute_state, compute_not_founds>(
+                //         data_column, agg_states, std::forward<Func>(allocate_func), not_founds);
             } else {
                 this->template compute_agg_through_null_data<Func, allocate_and_compute_state, compute_not_founds>(
                         chunk_size, nullable_column, agg_states, std::forward<Func>(allocate_func), not_founds);

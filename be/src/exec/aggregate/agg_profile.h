@@ -24,6 +24,8 @@ struct AggStatistics {
         agg_append_timer = ADD_TIMER(runtime_profile, "ResultAggAppendTime");
         group_by_append_timer = ADD_TIMER(runtime_profile, "ResultGroupByAppendTime");
         agg_compute_timer = ADD_TIMER(runtime_profile, "AggComputeTime");
+        agg_get_data_timer = ADD_TIMER(runtime_profile, "AggGetDataTime");
+        agg_build_hashmap_timer = ADD_TIMER(runtime_profile, "AggBuildHashMapTime");
         agg_function_compute_timer = ADD_TIMER(runtime_profile, "AggFuncComputeTime");
         streaming_timer = ADD_TIMER(runtime_profile, "StreamingTime");
         expr_compute_timer = ADD_TIMER(runtime_profile, "ExprComputeTime");
@@ -41,6 +43,10 @@ struct AggStatistics {
 
     // timer for build hash table and compute aggregate function
     RuntimeProfile::Counter* agg_compute_timer{};
+
+    RuntimeProfile::Counter* agg_get_data_timer{};
+    RuntimeProfile::Counter* agg_build_hashmap_timer{};
+
     // timer for compute aggregate function
     RuntimeProfile::Counter* agg_function_compute_timer{};
     // timer for streaming aggregate (convert to serialize)

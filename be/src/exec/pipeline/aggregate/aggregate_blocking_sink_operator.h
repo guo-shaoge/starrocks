@@ -31,7 +31,11 @@ public:
         _aggregator->ref();
     }
 
-    ~AggregateBlockingSinkOperator() override = default;
+    ~AggregateBlockingSinkOperator() override
+    {
+        LOG(INFO) << "gjt debug AggregateBlockingSinkOperator agg hashmap build + agg func compute time: "
+            << _aggregator->agg_build_hashmap_timer()->value();
+    }
 
     bool has_output() const override { return false; }
     bool need_input() const override { return !is_finished(); }
