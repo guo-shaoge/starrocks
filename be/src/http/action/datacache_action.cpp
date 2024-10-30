@@ -46,6 +46,9 @@ std::string cache_status_str(const DataCacheStatus& status) {
     case DataCacheStatus::ABNORMAL:
         str_status = "ABNORMAL";
         break;
+    default:
+	str_status = "default";
+	break;
     }
     return str_status;
 }
